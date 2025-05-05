@@ -97,7 +97,7 @@ export function Blog() {
                 className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300"
               >
                 <Link href={`/blog/${post.slug}`}>
-                  <a className="block">
+                  <div className="block cursor-pointer">
                     <img 
                       src={post.coverImage} 
                       alt={post.title} 
@@ -126,7 +126,7 @@ export function Blog() {
                         </span>
                       </div>
                     </div>
-                  </a>
+                  </div>
                 </Link>
               </motion.div>
             ))}

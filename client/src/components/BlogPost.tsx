@@ -46,10 +46,10 @@ export function BlogPost() {
           transition={{ duration: 0.5 }}
         >
           <Link href="/blog">
-            <a className="inline-flex items-center text-primary dark:text-primary-400 hover:underline mb-6">
+            <div className="inline-flex items-center text-primary dark:text-primary-400 hover:underline mb-6 cursor-pointer">
               <ChevronLeft className="mr-1 h-4 w-4" />
               Back to all posts
-            </a>
+            </div>
           </Link>
           
           <div className="mb-8">

@@ -4,6 +4,7 @@ import { About } from "@/components/About";
 import { Projects } from "@/components/Projects";
 import { Experience } from "@/components/Experience";
 import { Contact } from "@/components/Contact";
+import { BlogPreview } from "@/components/BlogPreview";
 import { Footer } from "@/components/Footer";
 import { useEffect } from "react";
 
@@ -20,6 +21,7 @@ export default function Portfolio() {
       <About />
       <Projects />
       <Experience />
+      <BlogPreview />
       <Contact />
       <Footer />
     </div>
