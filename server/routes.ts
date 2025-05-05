@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { sendContactEmail } from "./email";
+import { saveContactMessage } from "./contact-storage";
 
 // Contact form validation schema
 const contactFormSchema = z.object({
@@ -19,18 +20,37 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Validate form data
       const formData = contactFormSchema.parse(req.body);
       
-      // Send email
-      const emailSent = await sendContactEmail(formData);
+      // First try to send email with SendGrid (but this may fail due to sender verification)
+      let emailSent = false;
+      try {
+        emailSent = await sendContactEmail(formData);
+      } catch (emailError) {
+        console.log('SendGrid email failed, falling back to local storage');
+      }
       
-      if (emailSent) {
+      // If email sending fails, save the message locally
+      if (!emailSent) {
+        const saved = await saveContactMessage(formData);
+        
+        if (saved) {
+          // Success - message was saved locally
+          res.status(200).json({ 
+            success: true, 
+            message: "Thank you for your message! I'll check it soon.", 
+            note: "Your message was stored locally instead of being emailed."
+          });
+        } else {
+          // Both email and local storage failed
+          res.status(500).json({ 
+            success: false, 
+            message: "There was a problem storing your message. Please try again later." 
+          });
+        }
+      } else {
+        // Email was sent successfully
         res.status(200).json({ 
           success: true, 
-          message: "Thank you for your message! We'll get back to you soon." 
-        });
-      } else {
-        res.status(500).json({ 
-          success: false, 
-          message: "There was a problem sending your message. Please try again later." 
+          message: "Thank you for your message! I'll get back to you soon." 
         });
       }
     } catch (error) {
@@ -54,6 +74,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
           message: "Server error. Please try again later." 
         });
       }
+    }
+  });
+
+  // Add a route to view saved messages (protect this in production!)
+  app.get("/api/contact-messages", async (_req: Request, res: Response) => {
+    try {
+      const messages = await import('./contact-storage').then(m => m.getContactMessages());
+      res.status(200).json({ success: true, messages });
+    } catch (error) {
+      console.error("Error retrieving contact messages:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Error retrieving contact messages" 
+      });
     }
   });
 
