@@ -3,17 +3,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 export function Contact() {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
   const [formErrors, setFormErrors] = useState({
     name: "",
     email: "",
+    subject: "",
     message: "",
   });
   const [formSuccess, setFormSuccess] = useState(false);
@@ -32,7 +35,7 @@ export function Contact() {
 
   const validateForm = () => {
     let valid = true;
-    const newErrors = { name: "", email: "", message: "" };
+    const newErrors = { name: "", email: "", subject: "", message: "" };
 
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
@@ -47,8 +50,16 @@ export function Contact() {
       valid = false;
     }
 
+    if (!formData.subject.trim()) {
+      newErrors.subject = "Subject is required";
+      valid = false;
+    }
+    
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
+      valid = false;
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
       valid = false;
     }
 
@@ -56,29 +67,48 @@ export function Contact() {
     return valid;
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      setFormSuccess(true);
-      setFormData({ name: "", email: "", message: "" });
-      setIsSubmitting(false);
-      toast({
-        title: "Message sent!",
-        description: "Thank you for contacting me. I'll get back to you soon.",
-        variant: "default",
+    try {
+      const response = await apiRequest<{success: boolean; message: string}>({
+        method: 'POST',
+        url: '/api/contact',
+        body: formData,
       });
       
-      // Hide success message after 5 seconds
-      setTimeout(() => {
-        setFormSuccess(false);
-      }, 5000);
-    }, 1000);
+      const data = await response.json();
+      
+      if (data.success) {
+        setFormSuccess(true);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        toast({
+          title: "Message sent!",
+          description: "Thank you for contacting me. I'll get back to you soon.",
+          variant: "default",
+        });
+        
+        // Hide success message after 5 seconds
+        setTimeout(() => {
+          setFormSuccess(false);
+        }, 5000);
+      } else {
+        throw new Error(data.message || 'Failed to send message');
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast({
+        title: "Message failed to send",
+        description: error instanceof Error ? error.message : "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -274,6 +304,31 @@ export function Contact() {
                 />
                 {formErrors.email && (
                   <div className="text-red-500 text-sm mt-1">{formErrors.email}</div>
+                )}
+              </div>
+
+              <div>
+                <label
+                  htmlFor="subject"
+                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+                >
+                  Subject
+                </label>
+                <Input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  placeholder="Subject of your message"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 border ${
+                    formErrors.subject
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 dark:border-gray-600 focus:ring-primary-500 focus:border-primary-500"
+                  } rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white`}
+                />
+                {formErrors.subject && (
+                  <div className="text-red-500 text-sm mt-1">{formErrors.subject}</div>
                 )}
               </div>
 
