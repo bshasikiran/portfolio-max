@@ -76,7 +76,7 @@ TypeScript and React make for a powerful development experience. While there is 
 
 In future posts, we'll explore more advanced TypeScript patterns for React applications!
     `,
-    coverImage: "https://images.unsplash.com/photo-1610986603166-c4744cab8935?q=80&w=1374&auto=format&fit=crop",
+    coverImage: "https://placehold.co/1200x630/1e293b/ffffff?text=React+TypeScript",
     author: "Betala Shasi Kiran",
     publishedDate: "May 1, 2025",
     tags: ["React", "TypeScript", "Web Development"]
@@ -183,7 +183,7 @@ AI opens up exciting possibilities for developers to create more intelligent, re
 
 In future posts, I'll dive deeper into specific AI implementations and how to integrate them effectively into your applications.
     `,
-    coverImage: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1365&auto=format&fit=crop",
+    coverImage: "https://placehold.co/1200x630/0f172a/ffffff?text=AI+in+Modern+Applications",
     author: "Betala Shasi Kiran",
     publishedDate: "May 3, 2025",
     tags: ["AI", "Machine Learning", "Software Development"]
@@ -324,7 +324,7 @@ Tailwind CSS provides a powerful approach to styling that can significantly spee
 
 In future posts, I'll explore more advanced Tailwind techniques and how to customize it for your design system!
     `,
-    coverImage: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1470&auto=format&fit=crop",
+    coverImage: "https://placehold.co/1200x630/1e3a8a/ffffff?text=Tailwind+CSS",
     author: "Betala Shasi Kiran",
     publishedDate: "May 5, 2025",
     tags: ["CSS", "Tailwind", "UI Design", "Web Development"]
