@@ -38,25 +38,25 @@ export function Blog() {
           <h3 className="text-lg font-medium mb-3 text-gray-700 dark:text-gray-300">Browse by Tag</h3>
           <div className="flex flex-wrap gap-2">
             <Link href="/blog">
-              <a className={`px-3 py-1 rounded-full text-sm font-medium cursor-pointer 
+              <div className={`px-3 py-1 rounded-full text-sm font-medium cursor-pointer 
                 ${!tagFilter 
                   ? 'bg-primary text-white' 
                   : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
                 }`}
               >
                 All
-              </a>
+              </div>
             </Link>
             {uniqueTags.map(tag => (
               <Link key={tag} href={`/blog?tag=${encodeURIComponent(tag)}`}>
-                <a className={`px-3 py-1 rounded-full text-sm font-medium cursor-pointer 
+                <div className={`px-3 py-1 rounded-full text-sm font-medium cursor-pointer 
                   ${tagFilter === tag 
                     ? 'bg-primary text-white' 
                     : 'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'
                   }`}
                 >
                   {tag}
-                </a>
+                </div>
               </Link>
             ))}
           </div>
@@ -68,9 +68,9 @@ export function Blog() {
               Posts tagged: "{tagFilter}"
             </h3>
             <Link href="/blog">
-              <a className="text-primary dark:text-primary-400 hover:underline">
+              <div className="text-primary dark:text-primary-400 hover:underline cursor-pointer">
                 ← Clear filter
-              </a>
+              </div>
             </Link>
           </div>
         )}

@@ -56,11 +56,11 @@ export function BlogPost() {
             <div className="flex flex-wrap gap-2 mb-4">
               {post.tags.map(tag => (
                 <Link key={tag} href={`/blog?tag=${encodeURIComponent(tag)}`}>
-                  <a>
+                  <div className="cursor-pointer">
                     <Badge variant="secondary" className="hover:bg-secondary/80">
                       {tag}
                     </Badge>
-                  </a>
+                  </div>
                 </Link>
               ))}
             </div>
