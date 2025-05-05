@@ -2,8 +2,16 @@ import { TypewriterEffect } from "./TypewriterEffect";
 
 export function Hero() {
   const downloadResume = () => {
-    // In a real implementation, this would download the actual resume file
-    alert("Resume download functionality will be implemented here");
+    // Create a link to download the resume
+    const resumeUrl = '/assets/myResume.pdf';
+    const link = document.createElement('a');
+    link.href = resumeUrl;
+    link.download = 'Betala_Shasi_Kiran_Resume.pdf';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   return (
