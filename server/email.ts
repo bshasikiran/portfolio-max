@@ -18,11 +18,10 @@ export async function sendContactEmail(params: EmailParams): Promise<boolean> {
   try {
     const { name, email, subject, message } = params;
     
-    // Using the email address that's receiving messages as the from address
-    // This is safer for deliverability and avoids needing to verify a sender domain
+    // Using SendGrid's recommended approach for non-verified domains
     await mailService.send({
       to: 'bshasikiran@gmail.com',
-      from: 'bshasikiran@gmail.com', // Using the same email as recipient (must be verified in SendGrid)
+      from: 'noreply@email.portfoliowebsite.com', // Generic sender that SendGrid allows
       subject: `Portfolio Contact: ${subject}`,
       text: `
         Name: ${name}
@@ -45,6 +44,12 @@ export async function sendContactEmail(params: EmailParams): Promise<boolean> {
     return true;
   } catch (error) {
     console.error('SendGrid email error:', error);
+    
+    // Log more details about the error
+    if (error && (error as any).response && (error as any).response.body) {
+      console.error('SendGrid error details:', JSON.stringify((error as any).response.body));
+    }
+    
     return false;
   }
 }
