@@ -130,7 +130,7 @@ export function Hero() {
               </svg>
             </a>
             <a
-              href="https://www.linkedin.com/in/betala-shasi-kiran"
+              href="https://www.linkedin.com/in/betala-shasi-kiran-4aa943252/"
               target="_blank"
               rel="noopener noreferrer"
               className="social-icon text-gray-600 dark:text-gray-300 hover:text-primary-500 dark:hover:text-primary-400 transition-all duration-300 hover:-translate-y-1 hover:scale-110"
