@@ -7,11 +7,15 @@ import NotFound from "@/pages/not-found";
 import Portfolio from "@/pages/Portfolio";
 import { useEffect } from "react";
 import AOS from "aos";
+import { Blog } from "@/components/Blog";
+import { BlogPost } from "@/components/BlogPost";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Portfolio} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogPost} />
       <Route component={NotFound} />
     </Switch>
   );
