@@ -56,3 +56,94 @@
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+/* Custom styles for the portfolio */
+.nav-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: hsl(var(--primary));
+  transition: width 0.3s;
+  margin-top: 2px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.skill-tag {
+  transition: all 0.3s ease;
+}
+
+.skill-tag:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.social-icon {
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  transform: translateY(-3px) scale(1.1);
+}
+
+.project-card {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.project-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Keyframes for the typewriter effect cursor blink animation */
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Profile image enhancements */
+.profile-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  z-index: 2;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 100%
+  );
+  transform: skewX(-25deg);
+  transition: all 0.7s ease;
+}
+
+.profile-image-container:hover::before {
+  animation: shine 1.2s ease;
+}
+
+@keyframes shine {
+  100% {
+    left: 125%;
+  }
+}
+
+/* Smooth scrolling for the entire page */
+html {
+  scroll-behavior: smooth;
+}

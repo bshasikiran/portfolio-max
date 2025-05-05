@@ -1,4 +1,5 @@
 import { skills } from "@/data/skillsData";
+import profileImage from "../assets/profile-image.jpg";
 
 export function About() {
   return (
@@ -16,28 +17,12 @@ export function About() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div data-aos="fade-right" className="rounded-lg overflow-hidden shadow-xl">
-            <svg
-              viewBox="0 0 400 400"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-full h-full"
-            >
-              <rect width="400" height="400" fill="#f3f4f6" className="dark:fill-gray-700" />
-              <circle cx="200" cy="150" r="80" fill="#d1d5db" className="dark:fill-gray-600" />
-              <circle cx="200" cy="120" r="30" fill="#9ca3af" className="dark:fill-gray-500" />
-              <rect x="120" y="230" width="160" height="140" fill="#9ca3af" className="dark:fill-gray-500" />
-              <text
-                x="200"
-                y="300"
-                fontSize="24"
-                fontWeight="bold"
-                textAnchor="middle"
-                fill="#4b5563"
-                className="dark:fill-gray-300"
-              >
-                Profile Image
-              </text>
-            </svg>
+          <div data-aos="fade-right" className="profile-image-container">
+            <img 
+              src={profileImage} 
+              alt="Betala Shasi Kiran" 
+              className="w-full h-auto object-cover transform transition-all duration-500 hover:scale-105"
+            />
           </div>
 
           <div data-aos="fade-left" className="space-y-6">
