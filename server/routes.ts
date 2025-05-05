@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { z } from "zod";
 import { sendContactEmail } from "./email";
+import { sendHerokuEmail } from "./heroku-email";
 import { saveContactMessage } from "./contact-storage";
 
 // Contact form validation schema
@@ -20,15 +21,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Validate form data
       const formData = contactFormSchema.parse(req.body);
       
-      // First try to send email with SendGrid (but this may fail due to sender verification)
+      // First try to send email with regular SendGrid
       let emailSent = false;
       try {
         emailSent = await sendContactEmail(formData);
+        console.log('Regular SendGrid email sent successfully');
       } catch (emailError) {
-        console.log('SendGrid email failed, falling back to local storage');
+        console.log('Regular SendGrid email failed, trying Heroku SendGrid approach');
+        
+        // If regular SendGrid fails, try the Heroku SendGrid approach
+        try {
+          emailSent = await sendHerokuEmail(formData);
+          console.log('Heroku SendGrid email sent successfully');
+        } catch (herokuError) {
+          console.log('Heroku SendGrid email also failed, falling back to local storage');
+        }
       }
       
-      // If email sending fails, save the message locally
+      // If both email methods fail, save the message locally
       if (!emailSent) {
         const saved = await saveContactMessage(formData);
         
@@ -40,14 +50,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
             note: "Your message was stored locally instead of being emailed."
           });
         } else {
-          // Both email and local storage failed
+          // All methods failed
           res.status(500).json({ 
             success: false, 
             message: "There was a problem storing your message. Please try again later." 
           });
         }
       } else {
-        // Email was sent successfully
+        // Email was sent successfully (either method)
         res.status(200).json({ 
           success: true, 
           message: "Thank you for your message! I'll get back to you soon." 
