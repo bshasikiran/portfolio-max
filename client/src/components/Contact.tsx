@@ -75,7 +75,7 @@ export function Contact() {
     setIsSubmitting(true);
     
     try {
-      const response = await apiRequest<{success: boolean; message: string}>({
+      const response = await apiRequest({
         method: 'POST',
         url: '/api/contact',
         body: formData,
